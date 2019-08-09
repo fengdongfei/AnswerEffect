@@ -43,9 +43,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void threeClick(View view) {
-        startActivity(new Intent(this,CourseActivity.class));
-
-    }
 
 }

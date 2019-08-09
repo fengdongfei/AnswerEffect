@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by zhangyipeng on 16/6/30.
  */
-public class AnwerInfo extends BaseInfo{
+public class AnwerInfo{
 
 
     private DataBean data;
