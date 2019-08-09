@@ -36,7 +36,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     private final Context mContext;
     private final RecyclerView mRecyclerView;
-    private List<AnwerInfo.DataBean.SubDataBean> datas;
+    private List<AnwerInfo.QueryQuestionListBean> datas;
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
@@ -53,7 +53,7 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
         mRecyclerView = recyclerView;
     }
 
-    public void setDataList(List<AnwerInfo.DataBean.SubDataBean> datas){
+    public void setDataList(List<AnwerInfo.QueryQuestionListBean> datas){
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -67,15 +67,9 @@ public class LayoutAdapter extends RecyclerView.Adapter<LayoutAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
-        AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(position);
-        holder.title.setText(subDataBean.getQuestionid()+". "+subDataBean.getQuestion()
-        +"\n\nA."+subDataBean.getOptiona()
-        +"\nB."+subDataBean.getOptionb()
-        +"\nC."+subDataBean.getOptionc()
-        +"\nD."+subDataBean.getOptiond()
-        +"\n\n\n答案解析："+subDataBean.getExplain()
+        AnwerInfo.QueryQuestionListBean subDataBean = datas.get(position);
+        holder.title.setText(((AnwerInfo.QueryQuestionListBean) subDataBean).qstContent
         );
-
         final View itemView = holder.itemView;
 
     }

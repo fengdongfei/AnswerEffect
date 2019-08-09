@@ -3,20 +3,16 @@ package com.example.zhangyipeng.anwerdemo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
-import com.example.zhangyipeng.anwerdemo.adapter.LayoutAdapter;
 import com.example.zhangyipeng.anwerdemo.adapter.TopicAdapter;
 import com.example.zhangyipeng.anwerdemo.bean.AnwerInfo;
 import com.example.zhangyipeng.anwerdemo.view.FlipperLayout;
-import com.lsjwzh.widget.recyclerviewpager.RecyclerViewPager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.ByteArrayOutputStream;
@@ -26,12 +22,10 @@ import java.util.List;
 
 public class AnwerActivity extends AppCompatActivity implements FlipperLayout.OnSlidePageListener {
 
-    private RecyclerViewPager mRecyclerView;
-    private LayoutAdapter layoutAdapter;
     private SlidingUpPanelLayout mLayout;
     private TopicAdapter topicAdapter;
     private RecyclerView recyclerView;
-    private List<AnwerInfo.DataBean.SubDataBean> datas;
+    private List<AnwerInfo.QueryQuestionListBean> datas;
     private FlipperLayout rootLayout;
 
     @Override
@@ -59,7 +53,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
 
         AnwerInfo anwerInfo = getAnwer();
 
-        datas = anwerInfo.getData().getData();
+        datas = anwerInfo.queryQuestionList;
         Log.i("data.size=", "" + datas.size());
 
 
@@ -79,7 +73,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
         if(datas.size()>0) {
             rootLayout = (FlipperLayout) findViewById(R.id.container);
             rootLayout.removeAllViews();
-            rootLayout.setIndex(0);
+            rootLayout.setIndex(1);
 
 
             View recoverView = LayoutInflater.from(AnwerActivity.this).inflate(R.layout.anwer_item, null);
@@ -105,13 +99,8 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
 
     }
 
-    private void setText(TextView textView, AnwerInfo.DataBean.SubDataBean subDataBean){
-        textView.setText(subDataBean.getQuestionid() + ". " + subDataBean.getQuestion()
-                + "\n\nA." + subDataBean.getOptiona()
-                + "\nB." + subDataBean.getOptionb()
-                + "\nC." + subDataBean.getOptionc()
-                + "\nD." + subDataBean.getOptiond()
-                + "\n\n\n答案解析：" + subDataBean.getExplain()
+    private void setText(TextView textView, AnwerInfo.QueryQuestionListBean subDataBean){
+        textView.setText(subDataBean.qstContent
         );
     }
 
@@ -132,7 +121,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
         final TextView readView1 = (TextView) view1.findViewById(R.id.tv_anwer);
         final TextView readView2 = (TextView) view2.findViewById(R.id.tv_anwer);
 
-        AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(position-1);
+        AnwerInfo.QueryQuestionListBean subDataBean = datas.get(position-1);
 
         //填充第一页的文本
         setText(recoverReadView,subDataBean);
@@ -151,7 +140,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
         Log.i("createView-index=",index+"");
         View newView = null;
         if (direction == FlipperLayout.OnSlidePageListener.MOVE_TO_LEFT && index<datas.size()) { //下一页
-            AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(index);
+            AnwerInfo.QueryQuestionListBean subDataBean = datas.get(index);
 
             newView = LayoutInflater.from(this).inflate(R.layout.anwer_item, null);
             TextView readView = (TextView) newView.findViewById(R.id.tv_anwer);
@@ -160,7 +149,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
 
 
         } else if(direction == FlipperLayout.MOVE_TO_RIGHT && index>=2){//上一页
-            AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(index-2);
+            AnwerInfo.QueryQuestionListBean subDataBean = datas.get(index-2);
             newView = LayoutInflater.from(this).inflate(R.layout.anwer_item, null);
             TextView readView = (TextView) newView.findViewById(R.id.tv_anwer);
             setText(readView,subDataBean);
@@ -224,7 +213,7 @@ public class AnwerActivity extends AppCompatActivity implements FlipperLayout.On
         final TextView readView2 = (TextView) view2.findViewById(R.id.tv_anwer);
 
 
-        AnwerInfo.DataBean.SubDataBean subDataBean = datas.get(recover);
+        AnwerInfo.QueryQuestionListBean subDataBean = datas.get(recover);
         //左边一个
         setText(recoverReadView,subDataBean);
 
